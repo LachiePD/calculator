@@ -25,16 +25,28 @@ class CalcButton{
 const checkInput = (symbol) =>{
 	switch(symbol){
 		case('X'):
+			inputArray.push(currentDisplay)
+			document.getElementById("screenValue").textContent = "X";
 			break;
 		case('.'):
+			inputArray.push(currentDisplay)
+			document.getElementById("screenValue").textContent = ".";
 			break;
 		case('+'):
+			inputArray.push(currentDisplay)
+			document.getElementById("screenValue").textContent = "+";
 			break;
 		case('='):
+			inputArray.push(currentDisplay)
+			document.getElementById("screenValue").textContent = "=";
 			break;
 		case('/'):
+			inputArray.push(currentDisplay)
+			document.getElementById("screenValue").textContent = "/";
 			break;
 		case('+'):
+			inputArray.push(currentDisplay)
+			document.getElementById("screenValue").textContent = "+";
 			break;
 		default:
 			currentDisplay += symbol;
@@ -43,7 +55,9 @@ const checkInput = (symbol) =>{
 
 
 }
-
+const changeCurrentDisplay = () => {
+	console.log("here");
+}
 const buttons = 	symbolArray.map( (symbol) =>{
 	console.log(symbol);
 	return new CalcButton(symbol);
@@ -55,4 +69,4 @@ const fillInterface = () =>{
 		calcInterface.appendChild(button.element);
 	}
 }
-window.onload = fillInterface;
+window.onload = fillInterface();
