@@ -1,0 +1,50 @@
+html, body{
+ height:100%;
+ display:flex;
+ margin:0;
+ width:100%;
+}
+
+body{
+	justify-content:center;
+	align-items:center;
+
+}
+#appContainer{
+	background-color:black;
+	display:flex;
+	width:70%;
+	height:70%;
+	border-radius:25px;
+	padding:14px;
+	justify-content:center;
+	flex-wrap:wrap;
+}
+#screen{
+	display:flex;
+	flex-wrap:wrap;
+	background-color:white;
+	width:80%;
+	height:20%;
+	border-radius:25px;
+	align-items:center;
+	justify-content:flex-end;
+	font-size:2.5rem;
+}
+#screenValue{
+	padding-right:12%;
+}
+#calcInterface{
+	display:flex;
+	flex-wrap:wrap;
+	width:80%;
+	height:78%;
+	justify-content:center;
+}
+.calcButton{
+	height:21%;
+	width:21%;
+	border-radius:50%;
+	margin:1%;
+	font-size:2rem;
+}
