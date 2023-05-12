@@ -28,6 +28,13 @@ const setScreenValue = () =>{
 
 const arrayFactory = () =>{
 	const array = [];
+	let evaluated = false;
+	const getEvaluated = () =>{
+		return evaluated;
+	}
+	const setEvaluated = () =>{
+		evaluated = !evaluated;
+	}
 
 	const getLength = () =>{
 		return array.length;
@@ -47,11 +54,18 @@ const arrayFactory = () =>{
 
 
 	}
+	const clear = () =>{
+		array.length = 0;
+
+	}
 	return{
 		getLength,
 		lastInWasOperator,
 		addToArray,
-		getArray
+		getArray, 
+		clear,
+		getEvaluated,
+		setEvaluated,
 	}
 }
 
@@ -64,10 +78,24 @@ const checkInput = (symbol) =>{
 		return;
 	}
 
-	const isOperator =isNaN(symbol);
+	console.log(factoryInstance.getEvaluated())
+	if(factoryInstance.getEvaluated())
+	{
+		currentDisplay = "";
+		setScreenValue();
+		factoryInstance.setEvaluated();
+	}
+	const isOperator =(sym)=>{
+		if(sym === '.'){
+			return false
+		}
+		else{
+			return	isNaN(sym);
+		}
+	}
 	
 
-	if(isOperator){
+	if(isOperator(symbol)){
 		factoryInstance.addToArray(currentDisplay);
 		currentDisplay = symbol;
 		setScreenValue();
@@ -78,16 +106,46 @@ const checkInput = (symbol) =>{
 		currentDisplay = "";
 	}
 
-	if(!isOperator){
+	if(!isOperator(symbol)){
 		currentDisplay += symbol;
 		setScreenValue();
 	}
 }
 
 const evaluate = () =>{
-	console.log(factoryInstance.getArray())
+	const arr = factoryInstance.getArray();
+	let operator;
+	const result = arr.reduce( (acc , ele) =>{
+			if(isNaN(ele)){
+				operator = ele;
+				return acc;
+			}
+		accInt = parseInt(acc);
+		eleInt = parseInt(ele);
+		switch(operator){
+			case('X'):
+				return acc * eleInt;
+				break;
+			case('+'):
+				console.log(typeof(eleInt));
+				return accInt + eleInt;
+				break;
+			case('-'):
+				return acc - eleInt;
+				break;
+			case('/'):
+				return acc / eleInt;
+				break;
+			default:
+				acc += eleInt;
+				break;
+		}
 
-
+		})
+	currentDisplay = result;
+	setScreenValue();
+	factoryInstance.clear();
+	factoryInstance.setEvaluated();
 }
 const fillInterface = () =>{
 	for(const button of buttons)
