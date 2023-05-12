@@ -4,9 +4,6 @@ const calcInterface = document.getElementById('calcInterface');
 
 let currentDisplay = document.getElementById("screenValue").textContent;
 
-const inputArray = [];
-
-
 class CalcButton{
 	constructor(buttonSymbol){
 		this.buttonSymbol = buttonSymbol;
@@ -17,52 +14,81 @@ class CalcButton{
 	}
 
 	onClick(){
-		console.log("Clicked" + this.buttonSymbol);
 		checkInput(this.buttonSymbol);
 	}
 }
+const buttons = 	symbolArray.map( (symbol) =>{
+	return new CalcButton(symbol);
+})
 
-const checkInput = (symbol) =>{
-	switch(symbol){
-		case('X'):
-			inputArray.push(currentDisplay)
-			document.getElementById("screenValue").textContent = "X";
-			break;
-		case('.'):
-			inputArray.push(currentDisplay)
-			document.getElementById("screenValue").textContent = ".";
-			break;
-		case('+'):
-			inputArray.push(currentDisplay)
-			document.getElementById("screenValue").textContent = "+";
-			break;
-		case('='):
-			inputArray.push(currentDisplay)
-			document.getElementById("screenValue").textContent = "=";
-			break;
-		case('/'):
-			inputArray.push(currentDisplay)
-			document.getElementById("screenValue").textContent = "/";
-			break;
-		case('+'):
-			inputArray.push(currentDisplay)
-			document.getElementById("screenValue").textContent = "+";
-			break;
-		default:
-			currentDisplay += symbol;
-			document.getElementById("screenValue").textContent = currentDisplay;
+const setScreenValue = () =>{
+	document.getElementById("screenValue").textContent =  currentDisplay;
+
+}
+
+const arrayFactory = () =>{
+	const array = [];
+
+	const getLength = () =>{
+		return array.length;
 	}
 
+	const addToArray = (val) =>{
+		array.push(val);
+	}
+	const lastInWasOperator = () =>{
+		if(array.length === 0){
+			return false;
+		}
+		return isNaN(array[array.length -1]);
+	}
+	const getArray = () =>{
+	return(array);
+
+
+	}
+	return{
+		getLength,
+		lastInWasOperator,
+		addToArray,
+		getArray
+	}
+}
+
+const factoryInstance = arrayFactory();
+
+const checkInput = (symbol) =>{
+	if(symbol === '='){
+		factoryInstance.addToArray(currentDisplay);
+		evaluate();
+		return;
+	}
+
+	const isOperator =isNaN(symbol);
+	
+
+	if(isOperator){
+		factoryInstance.addToArray(currentDisplay);
+		currentDisplay = symbol;
+		setScreenValue();
+		factoryInstance.addToArray(currentDisplay);
+	}
+
+	if(isNaN(currentDisplay)){
+		currentDisplay = "";
+	}
+
+	if(!isOperator){
+		currentDisplay += symbol;
+		setScreenValue();
+	}
+}
+
+const evaluate = () =>{
+	console.log(factoryInstance.getArray())
+
 
 }
-const changeCurrentDisplay = () => {
-	console.log("here");
-}
-const buttons = 	symbolArray.map( (symbol) =>{
-	console.log(symbol);
-	return new CalcButton(symbol);
-
-})
 const fillInterface = () =>{
 	for(const button of buttons)
 	{
